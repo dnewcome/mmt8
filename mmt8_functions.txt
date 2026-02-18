@@ -1,0 +1,116 @@
+================================================================================
+ALESIS MMT-8 FIRMWARE v1.11 - FUNCTION LIST
+CPU: 80C31 (8051), 12 MHz, External 27C256 EPROM
+================================================================================
+
+Address      Size     Name                           Called By
+--------------------------------------------------------------------------------
+CODE:0003    3        EXT_INT0_isr                   (entry/interrupt) [ISR: EXT_INT0 (timing tick counter)]
+CODE:000b    8        TIMER0_isr                     (entry/interrupt) [ISR: TIMER0 (reload TH0/TL0, MIDI timing)]
+CODE:0013    1        EXT_INT1_isr                   (entry/interrupt) [ISR: EXT_INT1 (unused, shares RETI)]
+CODE:0023    74       SERIAL_isr                     (entry/interrupt) [ISR: SERIAL (MIDI RX/TX, reg bank 2/3)]
+CODE:006d    142      init_sequencer_defaults        RESET_vector
+CODE:00fb    999      RESET_vector                   RESET_vector
+CODE:055e    214      scan_keyboard                  RESET_vector, sequence_playback_engine, process_playback_buttons
+CODE:0634    31       display_status_message         RESET_vector
+CODE:0653    7        io_settle_delay                scan_keyboard
+CODE:065a    7        lcd_short_delay                lcd_long_delay, RESET_vector
+CODE:0661    10       lcd_long_delay                 RESET_vector
+CODE:076b    7        stop_track_playback            sequence_playback_engine
+CODE:0772    58       start_track_playback           sequence_playback_engine, stop_track_playback
+CODE:07ac    92       all_notes_off_cleanup          stop_track_playback, configure_tempo_timer
+CODE:0808    28       clear_track_event_buffers      start_track_playback, RESET_vector, sequence_playback_engine, process_playback_buttons
+CODE:0824    236      advance_playback_position      configure_tempo_timer
+CODE:0918    10       process_recording_realtime     sequence_playback_engine
+CODE:0922    467      process_recording_step         sequence_playback_engine, process_playback_buttons
+CODE:0af5    1513     sequence_playback_engine       process_recording_step
+CODE:0b26    33       process_midi_input             RESET_vector, sequence_playback_engine, process_playback_buttons
+CODE:0cfd    69       midi_tx_note_off               all_notes_off_cleanup
+CODE:0fb4    27       stop_all_playing_notes         sequence_playback_engine
+CODE:0fe2    131      update_position_display        handle_sequence_boundary, sequence_playback_engine
+CODE:0ffe    21       handle_loop_display            sequence_playback_engine, update_position_display
+CODE:10e8    16       configure_tempo_timer          sequence_playback_engine, process_playback_buttons
+CODE:14c8    21       midi_tx_end_sysex              sequence_playback_engine
+CODE:14dd    19       midi_tx_flush_buffer           sequence_playback_engine, midi_tx_end_sysex
+CODE:14f0    16       midi_tx_check_buffer_full      midi_tx_note_off, update_part_metadata, sequence_playback_engine, midi_tx_flush_buffer, init_sequence_part_data (+1)
+CODE:15d7    40       handle_sequence_boundary       sequence_playback_engine
+CODE:15ff    37       send_midi_stop_msg             sequence_playback_engine
+CODE:1709    45       format_bcd_number              handle_loop_display, track_select_impl, update_position_display
+CODE:1756    4        set_default_tempo_values       sequence_playback_engine, configure_tempo_timer
+CODE:175a    112      update_part_metadata           handle_song_part_change, process_playback_buttons
+CODE:17ca    4        setup_sequence_data_ptrs       RESET_vector
+CODE:17ce    115      init_sequence_part_data        process_playback_buttons
+CODE:1841    20       song_mode_helper               update_display_full
+CODE:185d    68       send_midi_song_position        sequence_playback_engine
+CODE:18a1    164      init_playback_timing           send_midi_stop_msg
+CODE:1943    248      compute_tempo_reload           init_playback_timing
+CODE:1a3b    37       sequence_data_seek             compute_tempo_reload, advance_playback_position, sequence_data_operations
+CODE:1a60    53       sequence_data_read             compute_tempo_reload, sequence_data_operations
+CODE:1a95    376      sequence_data_operations       load_sequence_from_storage, continue_recording_existing, init_playback_timing
+CODE:1c0d    186      update_display_full            load_sequence_from_storage, handle_sequence_boundary, RESET_vector, setup_recording_state, recalculate_sequence_length (+4)
+CODE:1cc7    237      handle_song_part_change        sequence_playback_engine
+CODE:1db4    84       handle_song_completion         sequence_playback_engine
+CODE:1e08    12       copy_code_to_xdata             init_sequencer_defaults, init_playback_timing
+CODE:1e76    50       compute_position_delta         advance_playback_position
+CODE:1ea8    16       position_calc_helper           compute_position_delta
+CODE:1eb8    21       multiply_8bit                  compute_position_delta, position_calc_helper
+CODE:1ecd    36       display_tempo_info             record_button_setup, RESET_vector
+CODE:20f1    21       lcd_command                    delete_function_impl, lcd_write_part_name, process_sysex_data_dump, play_button_handler_detail, sysex_dump_engine (+6)
+CODE:2106    14       lcd_write_digit                lcd_command
+CODE:2114    13       lcd_write_char                 handle_copy_function, display_track_mode_screen, display_song_mode_screen, record_button_setup, delete_function_impl (+7)
+CODE:2121    10       lcd_set_cursor                 lcd_write_char, lcd_write_digit, format_number_2digit
+CODE:212b    5        lcd_write_space                lcd_print_string
+CODE:2130    10       lcd_write_byte_hex             handle_loop_display, display_track_mode_screen, display_song_mode_screen, record_button_setup, stop_button_handler_detail (+9)
+CODE:213a    9        lcd_busy_wait                  lcd_busy_wait, process_sysex_data_dump, track_select_impl, selftest_fail_halt
+CODE:2143    80       display_track_mode_screen      handle_copy_function, RESET_vector, handle_track_select_button
+CODE:2193    60       display_song_mode_screen       handle_copy_function, RESET_vector, handle_track_select_button
+CODE:21cf    14       format_number_2digit           format_bcd_number
+CODE:21ee    62       lcd_write_string_inline        handle_loop_display, display_track_mode_screen, display_song_mode_screen, tempo_edit_impl, play_button_handler_detail (+3)
+CODE:222c    60       lcd_write_part_name            record_button_setup
+CODE:2e20    13       data_transfer_helper           process_playback_buttons
+CODE:2e2d    43       check_data_transfer_state      RESET_vector, sequence_playback_engine, process_playback_buttons
+CODE:2e9e    42       load_sequence_from_storage     RESET_vector, advance_playback_position, send_midi_stop_msg
+CODE:2ec8    234      process_playback_buttons       sequence_playback_engine
+CODE:2fb2    33       send_midi_timing_clock         stop_all_playing_notes, setup_recording_state, sequence_playback_engine
+CODE:2fd3    128      setup_recording_state          sequence_playback_engine
+CODE:3026    134      sequence_edit_operations       init_metronome_click, setup_recording_state
+CODE:30d9    43       memory_block_copy              sequence_edit_operations, sysex_dump_engine, sysex_dump_helper, process_midi_realtime_msgs
+CODE:3104    49       memory_block_insert            sequence_edit_operations, recalculate_sequence_length
+CODE:315b    3        lcd_clear_line                 sequence_playback_engine, process_playback_buttons
+CODE:315e    16       lcd_print_string               RESET_vector, display_status_message
+CODE:324c    29       continue_recording_existing    RESET_vector
+CODE:3272    8        check_transport_buttons        RESET_vector, sequence_playback_engine
+CODE:327a    18       handle_play_button             RESET_vector
+CODE:33a9    174      play_button_handler_detail     handle_play_button
+CODE:347b    22       handle_record_button           RESET_vector
+CODE:3561    25       record_button_setup            handle_record_button
+CODE:357a    18       handle_stop_continue           RESET_vector
+CODE:364d    28       stop_button_handler_detail     handle_stop_continue
+CODE:3f94    30       handle_copy_function           RESET_vector
+CODE:407d    16       handle_delete_function         RESET_vector
+CODE:4107    94       delete_function_impl           handle_delete_function
+CODE:4195    17       delete_confirm                 delete_function_impl, tempo_edit_impl
+CODE:41a6    13       delete_track_data              delete_function_impl
+CODE:47a1    17       init_song_playback             sequence_edit_operations, RESET_vector, sequence_playback_engine, process_midi_realtime_msgs
+CODE:47b2    47       get_song_step_data             handle_song_part_change, init_song_playback, setup_recording_state, sequence_playback_engine
+CODE:47e1    390      process_midi_realtime_msgs     init_metronome_click, RESET_vector
+CODE:4c77    99       recalculate_sequence_length    advance_playback_position
+CODE:5053    49       handle_tempo_edit_button       RESET_vector
+CODE:5162    120      tempo_edit_impl                handle_tempo_edit_button
+CODE:599a    46       handle_track_select_button     RESET_vector
+CODE:5ae5    41       track_select_impl              handle_track_select_button
+CODE:5caf    133      start_recording_new_sequence   RESET_vector
+CODE:5da6    598      sysex_dump_engine              process_sysex_data_dump
+CODE:5ffc    25       sysex_dump_checksum            sysex_dump_engine
+CODE:623d    57       handle_auto_continue_record    sequence_playback_engine
+CODE:6c94    206      process_sysex_data_dump        handle_auto_continue_record
+CODE:6d62    46       sysex_dump_helper              process_sysex_data_dump, sysex_dump_engine
+CODE:6d90    26       init_metronome_click           RESET_vector
+CODE:7340    31       handle_midi_channel_filter     RESET_vector
+CODE:73e1    45       midi_filter_impl               handle_midi_channel_filter
+CODE:76b2    21       TIMER1_isr                     (entry/interrupt)
+CODE:7c2d    15       selftest_ram_rw                selftest_ram_rw, RESET_vector
+CODE:7c3c    13       selftest_delay_loop            selftest_ram_rw, RESET_vector, selftest_show_message
+CODE:7c49    6        selftest_pass_msg              RESET_vector
+CODE:7c4f    14       selftest_show_message          RESET_vector
+CODE:7c5d    11       selftest_fail_halt             selftest_pass_msg, selftest_show_message

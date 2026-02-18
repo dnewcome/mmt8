@@ -1,0 +1,463 @@
+================================================================================
+ALESIS MMT-8 - CALL GRAPH
+================================================================================
+
+EXT_INT0_isr (0x0003) [EXT_INT0 (timing tick counter)]
+    (leaf function)
+
+TIMER0_isr (0x000B) [TIMER0 (reload TH0/TL0, MIDI timing)]
+    (leaf function)
+
+EXT_INT1_isr (0x0013) [EXT_INT1 (unused, shares RETI)]
+    (leaf function)
+
+SERIAL_isr (0x0023) [SERIAL (MIDI RX/TX, reg bank 2/3)]
+    (leaf function)
+
+init_sequencer_defaults (0x006D)
+    -> copy_code_to_xdata
+
+RESET_vector (0x00FB)
+    -> check_data_transfer_state
+    -> check_transport_buttons
+    -> clear_track_event_buffers
+    -> continue_recording_existing
+    -> display_song_mode_screen
+    -> display_status_message
+    -> display_tempo_info
+    -> display_track_mode_screen
+    -> handle_copy_function
+    -> handle_delete_function
+    -> handle_midi_channel_filter
+    -> handle_play_button
+    -> handle_record_button
+    -> handle_stop_continue
+    -> handle_tempo_edit_button
+    -> handle_track_select_button
+    -> init_metronome_click
+    -> init_sequencer_defaults
+    -> init_song_playback
+    -> lcd_long_delay
+    -> lcd_print_string
+    -> lcd_short_delay
+    -> load_sequence_from_storage
+    -> process_midi_input
+    -> process_midi_realtime_msgs
+    -> scan_keyboard
+    -> selftest_delay_loop
+    -> selftest_pass_msg
+    -> selftest_ram_rw
+    -> selftest_show_message
+    -> setup_sequence_data_ptrs
+    -> start_recording_new_sequence
+    -> update_display_full
+
+scan_keyboard (0x055E)
+    -> io_settle_delay
+
+display_status_message (0x0634)
+    -> lcd_print_string
+
+io_settle_delay (0x0653)
+    (leaf function)
+
+lcd_short_delay (0x065A)
+    (leaf function)
+
+lcd_long_delay (0x0661)
+    -> lcd_short_delay
+
+stop_track_playback (0x076B)
+    (leaf function)
+
+start_track_playback (0x0772)
+    -> clear_track_event_buffers
+
+all_notes_off_cleanup (0x07AC)
+    -> midi_tx_note_off
+
+clear_track_event_buffers (0x0808)
+    (leaf function)
+
+advance_playback_position (0x0824)
+    -> compute_position_delta
+    -> load_sequence_from_storage
+    -> recalculate_sequence_length
+    -> sequence_data_seek
+
+process_recording_realtime (0x0918)
+    (leaf function)
+
+process_recording_step (0x0922)
+    -> sequence_playback_engine
+
+sequence_playback_engine (0x0AF5)
+    -> check_data_transfer_state
+    -> check_transport_buttons
+    -> clear_track_event_buffers
+    -> configure_tempo_timer
+    -> get_song_step_data
+    -> handle_auto_continue_record
+    -> handle_loop_display
+    -> handle_sequence_boundary
+    -> handle_song_completion
+    -> handle_song_part_change
+    -> init_song_playback
+    -> lcd_clear_line
+    -> midi_tx_check_buffer_full
+    -> midi_tx_end_sysex
+    -> midi_tx_flush_buffer
+    -> process_midi_input
+    -> process_playback_buttons
+    -> process_recording_realtime
+    -> process_recording_step
+    -> scan_keyboard
+    -> send_midi_song_position
+    -> send_midi_stop_msg
+    -> send_midi_timing_clock
+    -> set_default_tempo_values
+    -> setup_recording_state
+    -> start_track_playback
+    -> stop_all_playing_notes
+    -> stop_track_playback
+    -> update_display_full
+    -> update_position_display
+
+process_midi_input (0x0B26)
+    (leaf function)
+
+midi_tx_note_off (0x0CFD)
+    -> midi_tx_check_buffer_full
+
+stop_all_playing_notes (0x0FB4)
+    (leaf function)
+
+update_position_display (0x0FE2)
+    -> format_bcd_number
+    -> lcd_write_byte_hex
+    -> lcd_write_string_inline
+
+handle_loop_display (0x0FFE)
+    -> format_bcd_number
+    -> lcd_write_byte_hex
+    -> lcd_write_string_inline
+
+configure_tempo_timer (0x10E8)
+    -> advance_playback_position
+    -> all_notes_off_cleanup
+    -> set_default_tempo_values
+
+midi_tx_end_sysex (0x14C8)
+    (leaf function)
+
+midi_tx_flush_buffer (0x14DD)
+    -> midi_tx_check_buffer_full
+
+midi_tx_check_buffer_full (0x14F0)
+    (leaf function)
+
+handle_sequence_boundary (0x15D7)
+    -> update_display_full
+    -> update_position_display
+
+send_midi_stop_msg (0x15FF)
+    -> init_playback_timing
+    -> load_sequence_from_storage
+
+format_bcd_number (0x1709)
+    -> format_number_2digit
+    -> lcd_write_char
+
+set_default_tempo_values (0x1756)
+    (leaf function)
+
+update_part_metadata (0x175A)
+    -> midi_tx_check_buffer_full
+
+setup_sequence_data_ptrs (0x17CA)
+    (leaf function)
+
+init_sequence_part_data (0x17CE)
+    -> midi_tx_check_buffer_full
+
+song_mode_helper (0x1841)
+    (leaf function)
+
+send_midi_song_position (0x185D)
+    -> midi_tx_check_buffer_full
+
+init_playback_timing (0x18A1)
+    -> compute_tempo_reload
+    -> copy_code_to_xdata
+    -> sequence_data_operations
+    -> update_display_full
+
+compute_tempo_reload (0x1943)
+    -> sequence_data_read
+    -> sequence_data_seek
+
+sequence_data_seek (0x1A3B)
+    (leaf function)
+
+sequence_data_read (0x1A60)
+    (leaf function)
+
+sequence_data_operations (0x1A95)
+    -> sequence_data_read
+    -> sequence_data_seek
+    -> update_display_full
+
+update_display_full (0x1C0D)
+    -> song_mode_helper
+
+handle_song_part_change (0x1CC7)
+    -> get_song_step_data
+    -> update_part_metadata
+
+handle_song_completion (0x1DB4)
+    (leaf function)
+
+copy_code_to_xdata (0x1E08)
+    (leaf function)
+
+compute_position_delta (0x1E76)
+    -> multiply_8bit
+    -> position_calc_helper
+
+position_calc_helper (0x1EA8)
+    -> multiply_8bit
+
+multiply_8bit (0x1EB8)
+    (leaf function)
+
+display_tempo_info (0x1ECD)
+    (leaf function)
+
+lcd_command (0x20F1)
+    -> lcd_write_char
+    -> lcd_write_digit
+
+lcd_write_digit (0x2106)
+    -> lcd_set_cursor
+
+lcd_write_char (0x2114)
+    -> lcd_set_cursor
+
+lcd_set_cursor (0x2121)
+    (leaf function)
+
+lcd_write_space (0x212B)
+    -> lcd_write_byte_hex
+
+lcd_write_byte_hex (0x2130)
+    (leaf function)
+
+lcd_busy_wait (0x213A)
+    (leaf function)
+
+display_track_mode_screen (0x2143)
+    -> lcd_write_byte_hex
+    -> lcd_write_string_inline
+
+display_song_mode_screen (0x2193)
+    -> lcd_write_byte_hex
+    -> lcd_write_string_inline
+
+format_number_2digit (0x21CF)
+    -> lcd_set_cursor
+
+lcd_write_string_inline (0x21EE)
+    (leaf function)
+
+lcd_write_part_name (0x222C)
+    (leaf function)
+
+data_transfer_helper (0x2E20)
+    (leaf function)
+
+check_data_transfer_state (0x2E2D)
+    (leaf function)
+
+load_sequence_from_storage (0x2E9E)
+    -> update_display_full
+
+process_playback_buttons (0x2EC8)
+    -> check_data_transfer_state
+    -> clear_track_event_buffers
+    -> configure_tempo_timer
+    -> data_transfer_helper
+    -> init_sequence_part_data
+    -> lcd_clear_line
+    -> lcd_write_byte_hex
+    -> lcd_write_string_inline
+    -> process_midi_input
+    -> process_recording_step
+    -> scan_keyboard
+    -> update_part_metadata
+
+send_midi_timing_clock (0x2FB2)
+    (leaf function)
+
+setup_recording_state (0x2FD3)
+    -> get_song_step_data
+    -> sequence_edit_operations
+    -> update_display_full
+
+sequence_edit_operations (0x3026)
+    -> init_song_playback
+    -> memory_block_copy
+    -> memory_block_insert
+
+memory_block_copy (0x30D9)
+    (leaf function)
+
+memory_block_insert (0x3104)
+    (leaf function)
+
+lcd_clear_line (0x315B)
+    (leaf function)
+
+lcd_print_string (0x315E)
+    -> lcd_write_space
+
+continue_recording_existing (0x324C)
+    -> sequence_data_operations
+
+check_transport_buttons (0x3272)
+    (leaf function)
+
+handle_play_button (0x327A)
+    -> play_button_handler_detail
+
+play_button_handler_detail (0x33A9)
+    -> lcd_command
+    -> lcd_write_byte_hex
+    -> lcd_write_char
+    -> lcd_write_string_inline
+
+handle_record_button (0x347B)
+    -> record_button_setup
+
+record_button_setup (0x3561)
+    -> lcd_write_byte_hex
+    -> lcd_write_char
+    -> lcd_write_part_name
+
+handle_stop_continue (0x357A)
+    -> stop_button_handler_detail
+
+stop_button_handler_detail (0x364D)
+    -> lcd_write_byte_hex
+
+handle_copy_function (0x3F94)
+    -> display_song_mode_screen
+    -> display_track_mode_screen
+    -> lcd_write_char
+
+handle_delete_function (0x407D)
+    -> delete_function_impl
+
+delete_function_impl (0x4107)
+    -> delete_confirm
+    -> delete_track_data
+    -> lcd_command
+    -> lcd_write_byte_hex
+
+delete_confirm (0x4195)
+    (leaf function)
+
+delete_track_data (0x41A6)
+    (leaf function)
+
+init_song_playback (0x47A1)
+    -> get_song_step_data
+
+get_song_step_data (0x47B2)
+    (leaf function)
+
+process_midi_realtime_msgs (0x47E1)
+    -> init_song_playback
+    -> memory_block_copy
+    -> update_display_full
+
+recalculate_sequence_length (0x4C77)
+    -> memory_block_insert
+    -> update_display_full
+
+handle_tempo_edit_button (0x5053)
+    -> tempo_edit_impl
+
+tempo_edit_impl (0x5162)
+    -> delete_confirm
+    -> lcd_write_byte_hex
+    -> lcd_write_char
+    -> lcd_write_string_inline
+
+handle_track_select_button (0x599A)
+    -> display_song_mode_screen
+    -> display_track_mode_screen
+    -> track_select_impl
+
+track_select_impl (0x5AE5)
+    -> format_bcd_number
+    -> lcd_busy_wait
+    -> lcd_command
+    -> lcd_write_char
+
+start_recording_new_sequence (0x5CAF)
+    (leaf function)
+
+sysex_dump_engine (0x5DA6)
+    -> lcd_command
+    -> lcd_write_byte_hex
+    -> memory_block_copy
+    -> sysex_dump_checksum
+    -> sysex_dump_helper
+
+sysex_dump_checksum (0x5FFC)
+    (leaf function)
+
+handle_auto_continue_record (0x623D)
+    -> process_sysex_data_dump
+
+process_sysex_data_dump (0x6C94)
+    -> lcd_busy_wait
+    -> lcd_command
+    -> lcd_write_byte_hex
+    -> lcd_write_char
+    -> sysex_dump_engine
+    -> sysex_dump_helper
+
+sysex_dump_helper (0x6D62)
+    -> memory_block_copy
+
+init_metronome_click (0x6D90)
+    -> process_midi_realtime_msgs
+    -> sequence_edit_operations
+
+handle_midi_channel_filter (0x7340)
+    -> midi_filter_impl
+
+midi_filter_impl (0x73E1)
+    -> lcd_write_byte_hex
+    -> lcd_write_string_inline
+
+TIMER1_isr (0x76B2)
+    (leaf function)
+
+selftest_ram_rw (0x7C2D)
+    -> selftest_delay_loop
+
+selftest_delay_loop (0x7C3C)
+    (leaf function)
+
+selftest_pass_msg (0x7C49)
+    -> selftest_fail_halt
+
+selftest_show_message (0x7C4F)
+    -> lcd_command
+    -> selftest_delay_loop
+    -> selftest_fail_halt
+
+selftest_fail_halt (0x7C5D)
+    -> lcd_busy_wait
