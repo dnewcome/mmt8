@@ -6,6 +6,13 @@ emulator, with custom C code implementing the RAM, address decoding, and I/O
 multiplexing logic from the schematic. SDL2 provides a GUI showing the LCD
 display and clickable buttons matching the real hardware layout.
 
+## Status
+
+The simulator correctly loads the firmware and updates the LCD display. No MIDI I/O is implemented.
+Button matrix is not mapped correctly and LED positions and functions are not correct.
+Play/Record does not work. This is more of a WIP proof-of-concept that the unmodified firmware can
+indeed be loaded and run on simulated hardware.
+
 ## Building
 
 ### Dependencies
