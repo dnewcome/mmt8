@@ -1,0 +1,35 @@
+name = "mmt8"
+slug = "mmt8"
+description = "Reverse engineering and porting of the Alesis MMT-8 MIDI sequencer firmware (v1.11)"
+tags = ["embedded", "8051", "reverse-engineering", "MIDI", "C", "firmware", "Ghidra"]
+
+[hardware]
+cpu = "80C31 (8051 family, no internal ROM) @ 12 MHz"
+eprom = "27C256 (32KB, 0x0000–0x7FFF)"
+ram = "2x 61256 (32KB each, 64KB total external data RAM)"
+lcd = "HD44780-compatible, 2-line, 8-bit mode"
+midi = "UART at 31.25 kbaud via Timer 1 auto-reload"
+
+[firmware]
+version = "1.11"
+binary = "alesis_mmt8_v111.bin"
+size_bytes = 32768
+functions = 108
+disassembly = "alesis_mmt8_v111.asm"
+decompiled = "mmt8_decompiled.c"
+
+[tools]
+disassembler = "dis51"
+decompiler = "Ghidra 12.0"
+ghidra_scripts = ["scripts/ghidra_annotate.py", "scripts/ghidra_export.py", "scripts/ghidra_setup.py"]
+ghidra_project = "ghidra_project/"
+
+[simulator]
+path = "sim/"
+binary = "sim/mmt8sim"
+description = "8051 simulator with ncurses LCD emulation and MMT-8 hardware peripherals"
+
+[goals]
+primary = "Understand the firmware implementation and port to another platform"
+current = "Working 8051 simulator with hardware emulation"
+next = "C port targeting Linux using decompiled source as reference"
