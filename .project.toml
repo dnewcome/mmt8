@@ -33,3 +33,7 @@ description = "8051 simulator with ncurses LCD emulation and MMT-8 hardware peri
 primary = "Understand the firmware implementation and port to another platform"
 current = "Working 8051 simulator with hardware emulation"
 next = "C port targeting Linux using decompiled source as reference"
+
+[devlog]
+version = "v1.2"
+source = "https://github.com/dnewcome/devlog-tools"
